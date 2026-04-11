@@ -1,0 +1,56 @@
+import React, {useState} from "react";
+
+function Slides({ slides }) {
+  const [slidesCount, setSlidesCount] = useState(0);
+  const [resetDisabled, setResetDisabled] = useState(true);
+  const [nextDisabled, setNextDisabled] = useState(false);
+  const [prevDisabled, setPrevDisabled] = useState(true);
+  var handleNext = () => {
+     setSlidesCount((count) => count + 1);
+     setPrevDisabled(false);
+     setResetDisabled(false);
+     if((slides.length -2) == (slidesCount )){
+      setNextDisabled(true);
+     }
+     
+  };
+  var handlePrev = () => {
+     setSlidesCount((count) => count - 1);
+     if(slidesCount == 1){
+        setPrevDisabled(true);
+        setResetDisabled(true);
+     }
+     if (nextDisabled == true) {
+        setNextDisabled(false);
+     }
+  }
+  var handleReset = () => {
+    setSlidesCount(0);
+    setPrevDisabled(true);
+    setResetDisabled(true);
+    setNextDisabled(false);
+
+  }
+  return (
+    <div>
+      <div id="navigation" className="text-center">
+        <button data-testid="button-restart"  className="small outlined" disabled={resetDisabled}  onClick={handleReset}>
+          Restart
+        </button>
+        <button data-testid="button-prev" className="small" disabled={prevDisabled} onClick={handlePrev} >
+          Prev
+        </button>
+        <button data-testid="button-next" className="small" onClick={handleNext} disabled={nextDisabled}>
+          Next
+        </button>
+      </div>
+      
+      <div id="slide" className="card text-center">
+        <h1 data-testid="title">{slides[slidesCount].title}</h1>
+        <p data-testid="text">{slides[slidesCount].text}</p>
+      </div>
+    </div>
+  );
+}
+
+export default Slides;
