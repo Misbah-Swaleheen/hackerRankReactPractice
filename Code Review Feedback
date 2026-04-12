@@ -1,0 +1,48 @@
+import React, {useState} from "react";
+
+const FeedbackSystem = () => {
+  const [aspects, setAspects] = useState([
+    {"id":"0","aspect": "Readability" , "upvote": 0, "downvote" : 0} ,
+    {"id":"1","aspect": "Preformance" , "upvote": 0, "downvote" : 0},
+    {"id":"2","aspect":"Security" ,  "upvote": 0, "downvote" : 0},
+    {"id":"3","aspect":"Documentation" , "upvote": 0, "downvote" : 0},
+    {"id":"4","aspect":"Testing" , "upvote": 0, "downvote" : 0}]);
+
+  var handleUpvote = (aspect, upVote) => {      
+      setAspects(prevAspects => prevAspects.map(item => item.aspect === aspect? {...item, "upvote": (upVote + 1)}: item));
+  }
+
+  var handleDownvote = (aspect, downVote) => {
+      setAspects(prevAspects => prevAspects.map((item) => item.aspect === aspect? {...item, "downvote": (downVote+1)}: item));
+  }
+  return (
+    <div className="my-0 mx-auto text-center w-mx-1200">
+      <div className="flex wrap justify-content-center mt-30 gap-30">
+        {aspects.map((item) => 
+          
+         (<div className="pa-10 w-300 card" key={item.id}>
+
+            <h2>{item.aspect}</h2>
+            <div className="flex my-30 mx-0 justify-content-around">
+              <button className="py-10 px-15" data-testid={"upvote-btn-"+ item.id} onClick={() => handleUpvote(item.aspect, item.upvote )} >
+                👍 Upvote
+              </button>
+              <button className="py-10 px-15 danger" data-testid={"downvote-btn-"+ item.id} onClick={() => handleDownvote(item.aspect, item.downvote )} >
+                👎 Downvote
+              </button>
+            </div>
+            <p className="my-10 mx-0" data-testid={"upvote-count-" + item.id}>
+              Upvotes: <strong>{item.upvote}</strong>
+            </p>
+            <p className="my-10 mx-0" data-testid={"downvote-count-" + item.id}>
+              Downvotes: <strong>{item.downvote}</strong>
+            </p>
+          </div>
+        ))}
+      
+      </div>
+    </div>
+  );
+};
+
+export default FeedbackSystem;
